@@ -14,8 +14,8 @@ var webpackConfig = {
         loaders: [
             {
                 test: /\.jsx?$/,
-                include: path.resolve(__dirname, '../src/'),
-                exclude: path.resolve(__dirname, '../src/lib/'),
+                include: path.resolve(__dirname, '../src/js'),
+                exclude: path.resolve(__dirname, '../src/js/lib/'),
                 loader: 'babel-loader',
                 query: {
                     optional: ['runtime'],
@@ -36,7 +36,7 @@ var webpackConfig = {
 };
 
 var compile = function(){
-    return gulp.src('./src/init.jsx')
+    return gulp.src('./src/js/init.jsx')
         .pipe(webpack(webpackConfig))
         .pipe(gulp.dest(path.resolve(__dirname, '../' + appName + '/static/js/')));
 };
@@ -50,7 +50,7 @@ var watch = function(done){
         done();
     };
 
-    gulp.src('./src/init.jsx')
+    gulp.src('./js/src/init.jsx')
         .pipe(webpack(assign({watch: true, onCompile: onCompile}, webpackConfig)))
         .pipe(gulp.dest(path.resolve(__dirname, '../' + appName + '/static/js/')));
 };
