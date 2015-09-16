@@ -1,3 +1,4 @@
+import AppError from '../classes/Error';
 import { connect } from 'react-redux';
 import ConnectionActions from '../actions/ConnectionActions';
 import ConnectionManager from '../utils/ConnectionManager';
@@ -6,12 +7,11 @@ import ConnectionHandlers from '../mixins/ConnectionHandlers';
 import LocalActions from '../actions/LocalActions';
 import Logger from '../utils/Logger';
 import Person from '../classes/Person';
-import SetIntervals from '../mixins/SetIntervals';
 import React from 'react';
 
 const Connection = React.createClass({
 
-    mixins: [ConnectionHandlers(), SetIntervals],
+    mixins: [ConnectionHandlers()],
 
     setupHandlers: function(ctype, selfName) {
         const handleJoin = (name, cid) => {
@@ -68,9 +68,9 @@ const Connection = React.createClass({
             const dispatch = this.props.dispatch;
             switch (action.data) {
                 case 'ROOM_NAME_UNIQUE':
-                    this.props.dispatch(ErrorActions.error({
+                    this.props.dispatch(ErrorActions.error(new AppError({
                         message: 'Name chosen not unique, please try again with a different name'
-                    }));
+                    })));
                     break;
             }
         });
@@ -95,14 +95,14 @@ const Connection = React.createClass({
             switch (err.type) {
                 case 'peer-unavailable':
                     if (ctype === 'CLIENT') {
-                        dispatch(ErrorActions.error({
+                        dispatch(ErrorActions.error(new AppError({
                             message: `Could not connect to room`
-                        }));
+                        })));
                     }
                     else {
-                        dispatch(ErrorActions.error({
+                        dispatch(ErrorActions.error(new AppError({
                             message: `Could not set up room`
-                        }));
+                        })));
                     }
                     break;
             }
@@ -110,10 +110,10 @@ const Connection = React.createClass({
 
         ConnectionManager.on('peerClose', () => {
             const msg = (ctype === 'HOST') ? 'clients' : 'host';
-            this.props.dispatch(ErrorActions.error({
+            this.props.dispatch(ErrorActions.error(new AppError({
                 message: `Connection to ${msg} lost`,
                 fatal: true
-            }));
+            })));
         });
 
         ConnectionManager.on('connectionClose', conn => {
@@ -129,31 +129,22 @@ const Connection = React.createClass({
                 this.props.dispatch(LocalActions.removePerson(person.name));
             }
             else {
-                this.props.dispatch(ErrorActions.error({
+                this.props.dispatch(ErrorActions.error(new AppError({
                     message: `Connection to host lost`,
                     fatal: true
-                }));
+                })));
             }
         });
-
-        // Heroku hack.
-        // Ping clients to keep connection alive.
-        this.setInterval(() => {
-            this.props.dispatch(ConnectionActions.ping('ALL'));
-        }, 4000);
     },
 
     clear: function() {
         ConnectionManager.clear();
+        this.props.dispatch(LocalActions.clear());
     },
 
     componentWillUnmount: function() {
         this.unregisterHandlers();
         this.clear();
-
-        if (pinger) {
-
-        }
     },
 
     render: function() {

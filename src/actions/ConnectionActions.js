@@ -17,6 +17,7 @@ const actions = {
     sendJoinMulti: handler,
     sendHostName: handler,
     sendRemovePerson: handler,
+    sendMessage: handler,
     ping: action => {
         ConnectionManager.ping(action.to)
     },

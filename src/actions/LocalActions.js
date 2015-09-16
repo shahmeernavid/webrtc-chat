@@ -1,4 +1,5 @@
 import ActionUtils from '../utils/ActionUtils';
+import InitialStoreState from '../constants/InitialStoreState';
 
 const actions = {
     join: (state, action) => {
@@ -41,6 +42,10 @@ const actions = {
             ...state,
             roomName: action.data
         };
+    },
+
+    clear: () => {
+        return InitialStoreState.localState;
     }
 
 };

@@ -70,6 +70,7 @@ class ConnectionManager extends EventEmittor {
         this.host = null;
         this.peerObject = null;
         this.initialized = false;
+        this.reconnectTries = 0;
     }
 
     setupPeerHandlers(peer) {
@@ -96,6 +97,9 @@ class ConnectionManager extends EventEmittor {
 
         peer.on('close', () => {
             Logger.debug(`Peer close`);
+            if (peer.destroyed) {
+                return;
+            }
             this.emit('peerClose', peer, ctype);
         });
 

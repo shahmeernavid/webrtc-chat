@@ -6,6 +6,7 @@ import AppRoutes from './Routes';
 import { applyMiddleware, createStore } from 'redux';
 import Connection from './components/Connection';
 import ConnectionActionMiddleware from './middleware/ConnectionActionMiddleware';
+import InitialStoreState from './constants/InitialStoreState';
 import LoggerMiddleware from './middleware/LoggerMiddleware';
 import { Provider } from 'react-redux';
 import React from 'react';
@@ -22,18 +23,7 @@ const router = Router.create({
 const store = applyMiddleware(
     LoggerMiddleware,
     ConnectionActionMiddleware
-)(createStore)(Reducers, window.__INITIAL_STORE_STATE__ || {
-    localState: {
-        people: [],
-        hostName: null,
-        messages: [],
-        connectionType: null,
-        roomName: null
-    },
-    errorState: {
-        errors: []
-    }
-});
+)(createStore)(Reducers, window.__INITIAL_STORE_STATE__ || InitialStoreState);
 
 // Run static init methods for components (used to fetch initial data).
 router.run((Handler, state) => {

@@ -1,5 +1,5 @@
 import ActionUtils from '../utils/ActionUtils';
-import Error from '../classes/Error';
+import InitialStoreState from '../constants/InitialStoreState';
 
 const actions = {
     error: (errorState, action) => {
@@ -7,6 +7,10 @@ const actions = {
             ...errorState,
             errors: [...errorState.errors, action.data]
         };
+    },
+
+    clear: () => {
+        return InitialStoreState.errorState;
     }
 };
 
