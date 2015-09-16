@@ -166,6 +166,7 @@ Peer.prototype._retrieveId = function(cb) {
 /** Initialize a connection with the server. */
 Peer.prototype._initialize = function(id) {
   this.id = id;
+  this._lastServerId = id;
   this.socket.start(this.id, this.options.token);
 };
 
