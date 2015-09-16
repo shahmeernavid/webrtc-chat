@@ -7,7 +7,7 @@ import Router from 'react-router';
 
 const Home = React.createClass({
 
-    mixins: [Router.Navigation],
+    mixins: [React.addons.LinkedStateMixin, Router.Navigation],
 
     getInitialState: function() {
         return {
@@ -74,26 +74,14 @@ const Home = React.createClass({
         this.transitionTo('room');
     },
 
-    roomNameChange: function(event) {
-        this.setState({
-            roomName: event.target.value
-        });
-    },
-
-    nameChange: function(event) {
-        this.setState({
-            name: event.target.value
-        });
-    },
-
     render: function() {
         let dialog, buttons;
         if (this.state.createDialog || this.state.joinDialog) {
             dialog = (
                 <div>
                     <button onClick={this.back}>&#8592;</button>
-                    <input type="text" onChange={this.nameChange} placeholder="Enter Name" />
-                    <input type="text" onChange={this.roomNameChange} placeholder="Enter Room Name" />
+                    <input type="text" valueLink={this.linkState('name')} placeholder="Enter Name" />
+                    <input type="text" valueLink={this.linkState('roomName')} placeholder="Enter Room Name" />
                     <button onClick={this.go}>Go</button>
                 </div>
             );
