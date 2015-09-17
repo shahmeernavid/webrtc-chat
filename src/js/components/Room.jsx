@@ -19,10 +19,10 @@ const Room = React.createClass({
     },
 
     componentDidMount: function() {
-        this.registerConnectionHandler('connectionMessage', action => {
+        this.registerConnectionHandler('connectionMessage', (action, cid) => {
             this.props.dispatch(LocalActions.addMessage(new Message(action.data)));
             if (this.props.ctype === 'HOST') {
-                this.props.dispatch(ConnectionActions.sendMessage('ALL', action.data));
+                this.props.dispatch(ConnectionActions.sendMessage('ALL', action.data, cid));
             }
         });
     },
@@ -53,35 +53,39 @@ const Room = React.createClass({
     },
 
     render: function() {
-        const {errors, peopleList, peopleMap, hostName, messages} = this.props;
+        const {errors, peopleList, peopleMap, hostName, messages, roomName} = this.props;
 
         if (peopleList.length === 1 && hostName !== peopleList[0].name) {
             return (
-                <div className="room">
-                    <Loader className="room__loader" />
+                <div>
+                    <ErrorBanner errors={errors} />
+                    <div className="room">
+                        <Loader className="room__loader" />
+                    </div>
                 </div>
             );
         }
 
         const people = peopleList.map(person => {
             if (person.name === hostName) {
-                return <li className="people-list__person person--host">{person.name}</li>;
+                return <li className="people-list__person">Host: {person.name}</li>;
             }
             return <li className="people-list__person">{person.name}</li>;
         });
 
         const messageList = messages.map(m =>
-                <MessageComponent className="message-list__message" message={m} />);
+                <MessageComponent className="message-list__message" message={m} self={peopleList[0]} />);
 
         return (
             <div>
                 <ErrorBanner errors={errors} />
                 <div className="room">
                     <div className="people-list">
+                        <div className="people-list__room-name">{roomName}</div>
                         <ul>
                             {people}
                         </ul>
-                        <button onClick={this.leave}>Leave Room</button>
+                        <button className="button people-list__leave" onClick={this.leave}>Leave Room</button>
                     </div>
                     <div className="main-room-view">
                         <div className="main-room-view__message-list">
@@ -89,7 +93,7 @@ const Room = React.createClass({
                         </div>
                         <div className="main-room-view__message-input">
                             <input className="message-input__main" valueLink={this.linkState('userInput')} />
-                            <button onClick={this.send} className="button message-input__send">Send</button>
+                            <button onClick={this.send} className="message-input__send">Send</button>
                         </div>
                     </div>
                 </div>
@@ -104,5 +108,6 @@ export default connect(state => ({
     peopleMap: state.localState.people.toMap(),
     hostName: state.localState.hostName,
     messages: state.localState.messages,
-    ctype: state.localState.connectionType
+    ctype: state.localState.connectionType,
+    roomName: state.localState.roomName
 }))(Room);

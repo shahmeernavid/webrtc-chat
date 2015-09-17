@@ -1,16 +1,30 @@
 @import 'bourbon';
 @import 'reset';
-@import 'variables';
+@import 'button';
 @import 'home';
+@import 'room';
+@import 'message';
 
 *, *:before, *:after {
     box-sizing: border-box!important;
     font-family: Source Sans Pro!important;
 }
 
-button, input {
-    :focus {
-        outline: none;
+body {
+    background: #515151;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+}
+
+button {
+    &:hover {
+        cursor: pointer;
     }
 }
 
+button, input {
+    &:focus {
+        outline: none;
+    }
+}

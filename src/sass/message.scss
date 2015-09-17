@@ -1,0 +1,40 @@
+.message {
+    width: 40%;
+    display: block;
+    background: #94df29;
+    padding: 10px 20px;
+    position: relative;
+    clear: both;
+    float: right;
+    border-radius: 3px 3px 0px 3px;
+}
+
+.message--outgoing  {
+    @extend .message;
+    background: #dddddd;
+    float: left;
+    border-radius: 3px 3px 3px 0px;
+}
+
+.message__triangle {
+    position: absolute;
+    bottom: 0;
+    right: -12px;
+    @include triangle(12px, #79b721, down-left);
+}
+
+.message__triangle--outgoing {
+    @include triangle(12px, #b7b7b7, down-right);
+    bottom: 0;
+    right: 0;
+    left: -12px;
+    position: absolute;
+}
+
+.message__author {
+    font-style: italic;
+    font-size: 12px;
+    text-align: right;
+}
+
+

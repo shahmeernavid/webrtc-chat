@@ -1,0 +1,13 @@
+.button {
+    padding: 10px 20px;
+    background: #2b9ff0;
+    border-radius: 2px;
+    border: none;
+    border-bottom:3px solid #216fa6;
+    @include transition(background 0.25s);
+    color: #fff;
+
+    &:hover {
+        background: #2788cd;
+    }
+}

@@ -1,30 +1,49 @@
 .home {
-    background: $background-color;
     height: 100%;
     width: 100%;
+}
+
+.home__buttons {
+    margin: 0 auto;
+    display: block;
+    max-width: 500px;
+    margin-top: 50px;
+}
+
+.home__buttons__button {
+    display: block;
+    font-size: 16px;
+    margin: 20px auto;
 }
 
 .start-dialog {
     display: block;
     margin: 0 auto;
     max-width: 500px;
+    text-align: center;
 }
 
-.start-dialog__leave {
-    background: url("/images/close.svg") no-repeat;
+.start-dialog__inputs {
+    margin: 20px 0;
 }
 
-.start-dialog__input {
+.start-start-dialog__inputs__input {
+    margin: 10px auto;
     background: #fff;
-    padding: 20px;
+    padding: 10px 20px;
     border: 1px solid #bababa;
     border-radius: 2px;
     color: #333;
-    display: inline-block;
-    font-size: 23px;
+    display: block;
+    font-size: 17px;
     outline: none;
 }
 
-.start-dialog__send {
-    display: inline-block;
+.start-dialog__go {
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.start-dialog__leave {
+    font-size: 16px;
 }

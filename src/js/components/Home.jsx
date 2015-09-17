@@ -39,11 +39,19 @@ const Home = React.createClass({
     back: function() {
         this.setState({
             createDialog: false,
-            joinDialog: false
+            joinDialog: false,
+            roomName: null,
+            name: null
         });
     },
 
     go: function() {
+        if (!this.state.name || this.state.name.trim().length === 0
+                || !this.state.roomName || this.state.roomName.trim().length === 0) {
+            alert('You need to enter a name and room name!');
+            return;
+        }
+
         const connectionType = (this.state.joinDialog) ? 'CLIENT' : 'HOST';
 
         this.props.setupConnectionManager(connectionType, this.state.roomName);
@@ -62,9 +70,7 @@ const Home = React.createClass({
 
         // If a client, tell host about yourself.
         if (connectionType === 'CLIENT') {
-            dispatch(ConnectionActions.sendJoin('HOST', {
-                name: this.state.name
-            }));
+            dispatch(ConnectionActions.sendJoin('HOST', this.state.name));
         }
         // Otherwise, set up host name.
         else {
@@ -79,18 +85,20 @@ const Home = React.createClass({
         if (this.state.createDialog || this.state.joinDialog) {
             dialog = (
                 <div className="start-dialog">
-                    <button className="start-dialog__leave" onClick={this.back}>&#8592;</button>
-                    <input className="start-dialog__input" type="text" valueLink={this.linkState('name')} placeholder="Enter Name" />
-                    <input className="start-dialog__input" type="text" valueLink={this.linkState('roomName')} placeholder="Enter Room Name" />
-                    <button className="button start-dialog__send" onClick={this.go}>Go</button>
+                    <div className="start-dialog__inputs">
+                        <input className="start-start-dialog__inputs__input" type="text" valueLink={this.linkState('name')} placeholder="Enter Name" />
+                        <input className="start-start-dialog__inputs__input" type="text" valueLink={this.linkState('roomName')} placeholder="Enter Room Name" />
+                    </div>
+                    <button className="button start-dialog__go" onClick={this.go}>Let's Go!</button>
+                    <button className="button start-dialog__leave" onClick={this.back}>Cancel</button>
                 </div>
             );
         }
         else {
             buttons = (
-                <div>
-                    <button onClick={this.createRoom}>Create Room</button>
-                    <button onClick={this.joinRoom}>Join Room</button>
+                <div className="home__buttons">
+                    <button className="button home__buttons__button"  onClick={this.createRoom}>Create Room</button>
+                    <button className="button home__buttons__button" onClick={this.joinRoom}>Join Room</button>
                 </div>
             );
         }
