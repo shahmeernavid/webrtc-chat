@@ -1,7 +1,7 @@
 process.env.APP_NAME = 'chat';
 
 require('./tasks/client');
-// require('./tasks/css');
+require('./tasks/css');
 
 var cp = require('child_process');
 var gulp = require('gulp');
@@ -11,7 +11,7 @@ var watch = require('watch');
 
 var currentProcess;
 
-gulp.task('start', ['watch:client'], function () {
+gulp.task('start', ['watch:client', 'watch:css'], function () {
     watch.watchTree('./' + process.env.APP_NAME + '/static/js', { ignoreDotFiles: true },
             function (file) {
         if (currentProcess) {

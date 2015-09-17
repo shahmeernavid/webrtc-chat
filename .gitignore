@@ -2,4 +2,5 @@ env
 node_modules
 .DS_STORE
 chat/static/js/bundle.js
+chat/static/css/main.css
 *.pyc

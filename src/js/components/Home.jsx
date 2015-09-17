@@ -78,11 +78,11 @@ const Home = React.createClass({
         let dialog, buttons;
         if (this.state.createDialog || this.state.joinDialog) {
             dialog = (
-                <div>
-                    <button onClick={this.back}>&#8592;</button>
-                    <input type="text" valueLink={this.linkState('name')} placeholder="Enter Name" />
-                    <input type="text" valueLink={this.linkState('roomName')} placeholder="Enter Room Name" />
-                    <button onClick={this.go}>Go</button>
+                <div className="start-dialog">
+                    <button className="start-dialog__leave" onClick={this.back}>&#8592;</button>
+                    <input className="start-dialog__input" type="text" valueLink={this.linkState('name')} placeholder="Enter Name" />
+                    <input className="start-dialog__input" type="text" valueLink={this.linkState('roomName')} placeholder="Enter Room Name" />
+                    <button className="button start-dialog__send" onClick={this.go}>Go</button>
                 </div>
             );
         }

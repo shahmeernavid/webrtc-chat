@@ -1,0 +1,30 @@
+.home {
+    background: $background-color;
+    height: 100%;
+    width: 100%;
+}
+
+.start-dialog {
+    display: block;
+    margin: 0 auto;
+    max-width: 500px;
+}
+
+.start-dialog__leave {
+    background: url("/images/close.svg") no-repeat;
+}
+
+.start-dialog__input {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #bababa;
+    border-radius: 2px;
+    color: #333;
+    display: inline-block;
+    font-size: 23px;
+    outline: none;
+}
+
+.start-dialog__send {
+    display: inline-block;
+}

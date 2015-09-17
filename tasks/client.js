@@ -50,7 +50,7 @@ var watch = function(done){
         done();
     };
 
-    gulp.src('./js/src/init.jsx')
+    gulp.src('./src/js/init.jsx')
         .pipe(webpack(assign({watch: true, onCompile: onCompile}, webpackConfig)))
         .pipe(gulp.dest(path.resolve(__dirname, '../' + appName + '/static/js/')));
 };

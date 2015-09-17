@@ -1,0 +1,16 @@
+@import 'bourbon';
+@import 'reset';
+@import 'variables';
+@import 'home';
+
+*, *:before, *:after {
+    box-sizing: border-box!important;
+    font-family: Source Sans Pro!important;
+}
+
+button, input {
+    :focus {
+        outline: none;
+    }
+}
+

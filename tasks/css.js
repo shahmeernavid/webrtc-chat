@@ -1,10 +1,10 @@
-// TODO: make this work.
-
 var bourbon = require('node-bourbon');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
+
+var appName = process.env.APP_NAME;
 
 var compile = function(){
     return gulp.src('./src/sass/main.scss')
@@ -13,7 +13,7 @@ var compile = function(){
             includePaths: bourbon.includePaths
         }).on('error', sass.logError))
         .pipe(sourcemaps.write(''))
-        .pipe(gulp.dest('./dist/client/static/css/'));
+        .pipe(gulp.dest('./' + appName + '/static/css/'));
 };
 
 var watch = function(){

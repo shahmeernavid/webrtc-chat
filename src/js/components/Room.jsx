@@ -65,7 +65,7 @@ const Room = React.createClass({
 
         const people = peopleList.map(person => {
             if (person.name === hostName) {
-                return <li className="people-list__person--host">{person.name}</li>;
+                return <li className="people-list__person person--host">{person.name}</li>;
             }
             return <li className="people-list__person">{person.name}</li>;
         });
@@ -89,7 +89,7 @@ const Room = React.createClass({
                         </div>
                         <div className="main-room-view__message-input">
                             <input className="message-input__main" valueLink={this.linkState('userInput')} />
-                            <button onClick={this.send} className="message-input__send">Send</button>
+                            <button onClick={this.send} className="button message-input__send">Send</button>
                         </div>
                     </div>
                 </div>
