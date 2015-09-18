@@ -47,7 +47,6 @@ const actions = {
     clear: () => {
         return InitialStoreState.localState;
     }
-
 };
 
 export default ActionUtils.generateActionCreators(actions);

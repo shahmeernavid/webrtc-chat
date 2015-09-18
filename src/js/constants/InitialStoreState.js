@@ -4,7 +4,8 @@ export default {
         hostName: null,
         messages: [],
         connectionType: null,
-        roomName: null
+        roomName: null,
+        loading: false
     },
     errorState: {
         errors: []

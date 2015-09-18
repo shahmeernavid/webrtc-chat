@@ -1,8 +1,6 @@
 import { connect } from 'react-redux';
-import ErrorBanner from './ErrorBanner';
 import ConnectionActions from '../actions/ConnectionActions';
 import ConnectionHandlers from '../mixins/ConnectionHandlers';
-import Loader from './Loader';
 import LocalActions from '../actions/LocalActions';
 import Message from '../classes/Message';
 import MessageComponent from './Message';
@@ -32,6 +30,7 @@ const Room = React.createClass({
     },
 
     leave: function() {
+        debugger;
         this.transitionTo('app');
     },
 
@@ -55,30 +54,18 @@ const Room = React.createClass({
     render: function() {
         const {errors, peopleList, peopleMap, hostName, messages, roomName} = this.props;
 
-        if (peopleList.length === 1 && hostName !== peopleList[0].name) {
-            return (
-                <div>
-                    <ErrorBanner errors={errors} />
-                    <div className="room">
-                        <Loader className="room__loader" />
-                    </div>
-                </div>
-            );
-        }
-
         const people = peopleList.map(person => {
             if (person.name === hostName) {
-                return <li className="people-list__person">Host: {person.name}</li>;
+                return <li key={person.name} className="people-list__person">Host: {person.name}</li>;
             }
             return <li className="people-list__person">{person.name}</li>;
         });
 
-        const messageList = messages.map(m =>
-                <MessageComponent className="message-list__message" message={m} self={peopleList[0]} />);
+        const messageList = messages.map((m, idx) =>
+                <MessageComponent key={idx} className="message-list__message" message={m} self={peopleList[0]} />);
 
         return (
             <div>
-                <ErrorBanner errors={errors} />
                 <div className="room">
                     <div className="people-list">
                         <div className="people-list__room-name">{roomName}</div>

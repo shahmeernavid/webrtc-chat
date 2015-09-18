@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import ConnectionActions from '../actions/ConnectionActions';
 import ConnectionManager from '../utils/ConnectionManager';
 import ErrorActions from '../actions/ErrorActions';
+import ErrorBanner from '../components/ErrorBanner';
 import ConnectionHandlers from '../mixins/ConnectionHandlers';
+import Loader from '../components/Loader';
 import LocalActions from '../actions/LocalActions';
 import Logger from '../utils/Logger';
 import Person from '../classes/Person';
@@ -135,6 +137,18 @@ const Connection = React.createClass({
                 })));
             }
         });
+
+        // ConnectionManager.on('peerDisconnected', () => {
+        //     if (ctype === 'CLIENT') {
+        //         this.props.dispatch(LocalActions.setLoading(true));
+        //     }
+        // });
+
+        // ConnectionManager.on('peerOpen', () => {
+        //     if (ctype === 'CLIENT') {
+        //         this.props.dispatch(LocalActions.setLoading(false));
+        //     }
+        // });
     },
 
     clear: function() {
@@ -157,12 +171,16 @@ const Connection = React.createClass({
         });
 
         return (
-            <div>{children}</div>
+            <div>
+                <ErrorBanner errors={this.props.errors} />
+                <div>{children}</div>
+            </div>
         );
     }
 });
 
 export default connect(state => ({
     peopleList: state.localState.people,
-    peopleMap: state.localState.people.toMap()
+    peopleMap: state.localState.people.toMap(),
+    errors: state.errorState.errors
 }))(Connection);

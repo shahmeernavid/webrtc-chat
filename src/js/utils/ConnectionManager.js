@@ -11,12 +11,10 @@ class ConnectionManager extends EventEmittor {
         this.clients = {};
         this.host = null;
         this.peerObject = null;
-        this.initialized = false;
         this.reconnectTries = 0;
     }
 
     setup(ctype, roomName) {
-        this.initialized = true;
         if (this.peerObject) {
             this.peerObject.destroy();
         }
@@ -56,21 +54,21 @@ class ConnectionManager extends EventEmittor {
     }
 
     clear() {
-        if (!this.initialized) {
-            return;
-        }
-
         Object.keys(this.clients).forEach(id => {
             this.clients[id].close();
         });
-        this.peerObject.destroy();
+
+        if (this.peerObject) {
+            this.peerObject.destroy();
+        }
 
         this.connectionType = null;
         this.clients = {};
         this.host = null;
         this.peerObject = null;
-        this.initialized = false;
         this.reconnectTries = 0;
+
+        this.removeAllListeners();
     }
 
     setupPeerHandlers(peer) {
@@ -82,6 +80,7 @@ class ConnectionManager extends EventEmittor {
 
         peer.on('open', () => {
             this.reconnectTries = 0;
+            this.emit('peerOpen', peer, ctype);
         });
 
         peer.on('connection', conn => {
@@ -104,7 +103,8 @@ class ConnectionManager extends EventEmittor {
         });
 
         peer.on('disconnected', () => {
-            if (!peer.destroyed && this.reconnectTries < 3) {
+            this.emit('peerDisconnected', peer, ctype);
+            if (!peer.destroyed && this.reconnectTries < 1) {
                 peer.reconnect();
                 this.reconnectTries++;
                 return;

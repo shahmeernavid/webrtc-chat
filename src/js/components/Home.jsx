@@ -69,6 +69,7 @@ const Home = React.createClass({
         this.props.setupHandlers(connectionType, this.state.name);
 
         // If a client, tell host about yourself.
+        // Also set loading to true.
         if (connectionType === 'CLIENT') {
             dispatch(ConnectionActions.sendJoin('HOST', this.state.name));
         }
